@@ -3,7 +3,7 @@
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  trigger.action.outText("*** Air Unit Spawning --- START ***" , 10 , false)
+  trigger.action.outText("CRNGE | Air Unit Spawning --- START" , 10 , false)
 end
 
 
@@ -27,6 +27,6 @@ Spawn_E3_Overlord = SPAWN:New( "Overlord" )
     :SpawnScheduled( 300, 0.25 )
  
  
- env.info( "*** CSG8 *** Air Unit Spawning --- Completed" )
+ env.info( "CRNGE | Air Unit Spawning --- Completed" )
 
 end

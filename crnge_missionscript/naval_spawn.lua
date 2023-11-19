@@ -3,7 +3,7 @@
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  MESSAGE:New("*** Ship spawning --- START ***",10):ToAll()
+  MESSAGE:New("CRNGE | Ship spawning --- START",10):ToAll()
 end
 
 Moving_Ship_01 = SPAWN:New( "N_NavalTargets-1")
@@ -33,5 +33,5 @@ Moving_Ship_03 = SPAWN:New( "N_NavalTargets-3")
   end
 )
 
- env.info( "*** CSG8 *** Ship Spawning --- Completed" )
+ env.info( "CRNGE | Ship Spawning --- Completed" )
 end

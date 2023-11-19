@@ -4,11 +4,8 @@
 do
 
     if (crnge.debug == true) then
-      trigger.action.outText("*** Group Templates --- START ***" , 10 , false)
+      trigger.action.outText("CRNGE | Group Templates --- START" , 10 , false)
     end
-
-
-
 
   Template_Red_Convoy = { 
     'R_CONVOY', 
@@ -106,8 +103,12 @@ do
 
   Spawn_R_LL3_Bombers_Template = { 
     'A2G_BOMBERS_F16'
-    }
+  }
+  
+  Spawn_R_LL4_Bombers_Template = { 
+    'A2G_BOMBERS_F15'
+  }
 
-  env.info( "*** CSG8 *** Group Templates --- Completed" )
+  env.info( "CRNGE | Group Templates --- Completed" )
 
 end

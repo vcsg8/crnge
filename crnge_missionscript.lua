@@ -1,25 +1,37 @@
 --[[
 
 CSG8 CRNGE Mission Script
-Version: dev-2023-07-28T15:41:17Z
+Version: 2023-11-19T14:32:28Z
 Authors: isotaan
 
 ]]
 
 --Setting up debugging
 
-env.info( "*** CSG8 *** CRNGE Mission Script dev-2023-07-28T15:41:17Z Loading..." ) 
+env.info( "CRNGE | CRNGE Mission Script dev-2023-11-19T14:32:28Z Loading..." ) 
 
 crnge = {}
 crnge.__index = crnge
 crnge.debug = false --For verbose debugging of each section of this script
 crnge.skynetdebug = false --Turns on the message debug for Skynet
 crnge.a2adebug = false --Turns on message debugging for MOOSE's A2ACAP
-crnge.introMusic = "\\999_Nominal.mp3" --Default sound message that plays at the end of this script
+crnge.root = nil
+crnge.introMusic = nil
+
+ --Default sound message that plays at the end of this script
+
+
+if (homefile == true) then
+  crnge.root = "G:\\DCS Sound Files\\Music"
+  crnge.introMusic = crnge.root .."999_Nominal.mp3"
+else
+  crnge.root = "D:\\STE_Files\\Music\\"
+  crnge.introMusic = crnge.root .."999_Nominal.mp3"
+end
 
 --Checks for JACKAL. Required for the CRNGE to work correctly.
 if jackal == nil then
-   trigger.action.outText("*** CRNGE Requires JACKAL. Some functionality will not be supported. ***" , 10 , false)
+   trigger.action.outText("CRNGE | CRNGE Requires JACKAL. Some functionality will not be supported." , 10 , false)
 else
   --Enables Jackal logging
   jackal.enums.preferences.markpoint_logging = true
@@ -27,21 +39,32 @@ end
 
  
 if (crnge.debug == true) then
-    trigger.action.outText("*** CRNGE Mission Script --- START ***" , 10 , false)
+    trigger.action.outText("CRNGE | CRNGE Mission Script --- START" , 10 , false)
 end
   
  _SETTINGS:SetPlayerMenuOff()
+ 
+function crnge.playNominal()
+
+  if lfs and io then
+    --Outputs a test sound file if sanitization has occured
+    STTS.PlayMP3(crnge.introMusic,"251,241,1","AM,AM,FM","0.3","CRNGE BETTY",2)
+  else
+    env.info("CRNGE | MissionScipting.lua is not sanitized. STTS.PlayMP3 will not function.")
+  end
+end
+  
+function crnge.textNominal()
+  trigger.action.outText("REACTION ONLINE \nSENSORS ONLINE \nWEAPONS ONLINE \n\nALL SYSTEMS NOMINAL", 10)
+end
 ---------------------------------------------------
 -- Group Templates
 ---------------------------------------------------
 do
 
     if (crnge.debug == true) then
-      trigger.action.outText("*** Group Templates --- START ***" , 10 , false)
+      trigger.action.outText("CRNGE | Group Templates --- START" , 10 , false)
     end
-
-
-
 
   Template_Red_Convoy = { 
     'R_CONVOY', 
@@ -139,9 +162,13 @@ do
 
   Spawn_R_LL3_Bombers_Template = { 
     'A2G_BOMBERS_F16'
-    }
+  }
+  
+  Spawn_R_LL4_Bombers_Template = { 
+    'A2G_BOMBERS_F15'
+  }
 
-  env.info( "*** CSG8 *** Group Templates --- Completed" )
+  env.info( "CRNGE | Group Templates --- Completed" )
 
 end
 ---------------------------------------------------
@@ -205,7 +232,7 @@ heloCSG=RESCUEHELO:New("CVN-75 Harry S Truman", "SH-60")
 heloCSG:Start()
 
 ]]
-env.info( "*** CSG8 *** Carrier Unit Spawning --- Completed" )
+env.info( "CSG8 | Carrier Unit Spawning --- Completed" )
 
 end
 ---------------------------------------------------
@@ -213,7 +240,7 @@ end
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  trigger.action.outText("*** Air Unit Spawning --- START ***" , 10 , false)
+  trigger.action.outText("CRNGE | Air Unit Spawning --- START" , 10 , false)
 end
 
 
@@ -237,7 +264,7 @@ Spawn_E3_Overlord = SPAWN:New( "Overlord" )
     :SpawnScheduled( 300, 0.25 )
  
  
- env.info( "*** CSG8 *** Air Unit Spawning --- Completed" )
+ env.info( "CRNGE | Air Unit Spawning --- Completed" )
 
 end
 ---------------------------------------------------
@@ -245,7 +272,7 @@ end
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  trigger.action.outText("*** Ground Vehicle Spawning --- START ***" , 10 , false)
+  trigger.action.outText("CRNGE | Ground Vehicle Spawning --- START" , 10 , false)
 end
 
 --Roadside convoys w/ air escort
@@ -286,7 +313,7 @@ Moving_Convoy_03 = SPAWN:New( "R_CVY_03")
   :InitRandomizeTemplate( Template_Red_Convoy )
   :SpawnScheduled( 300, 0)
 
-
+--[[
 AddDismounts("R_CNV-1","Rifle")
 AddDismounts("R_CNV-2","Rifle")
 AddDismounts("R_CNV-3","MANPADS")
@@ -302,16 +329,16 @@ AddDismounts("R_CITY_MOV_VEH-2-2","Rifle")
 AddDismounts("R_CITY_MOV_VEH-2-3","Rifle")
 AddDismounts("R_CITY_MOV_VEH-3-1","Rifle")
 AddDismounts("R_CITY_MOV_VEH-3-2","Rifle")
-AddDismounts("R_CITY_MOV_VEH-3-3","MANPADS")
+AddDismounts("R_CITY_MOV_VEH-3-3","MANPADS")]]
 
- env.info( "*** CSG8 *** Ground Vehicle Spawning --- Completed" )
+ env.info( "CRNGE | Ground Vehicle Spawning --- Completed" )
 end
 ---------------------------------------------------
 -- Naval Vessel Spawning
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  MESSAGE:New("*** Ship spawning --- START ***",10):ToAll()
+  MESSAGE:New("CRNGE | Ship spawning --- START",10):ToAll()
 end
 
 Moving_Ship_01 = SPAWN:New( "N_NavalTargets-1")
@@ -341,14 +368,14 @@ Moving_Ship_03 = SPAWN:New( "N_NavalTargets-3")
   end
 )
 
- env.info( "*** CSG8 *** Ship Spawning --- Completed" )
+ env.info( "CRNGE | Ship Spawning --- Completed" )
 end
 ---------------------------------------------------
 -- Target Ranges
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  MESSAGE:New("*** Target Range --- START ***",10):ToAll()
+  MESSAGE:New("CRNGE | Target Range --- START",10):ToAll()
 end
 
 
@@ -364,139 +391,109 @@ RangeCN02 = RANGE:New("Range KobOld")
 RangeCN02:Start()
 
 
- env.info( "*** CSG8 *** Target Ranges --- Completed" )
+ env.info( "CRNGE | Target Ranges --- Completed" )
 end
+
 ---------------------------------------------------
 -- SKYNET SETUP
 ---------------------------------------------------
 
 do  
-if (crnge.debug == true) then
-  trigger.action.outText("*** Blue Skynet --- START ***" , 10 , false)
-end
+  if (crnge.debug == true) then
+    trigger.action.outText("*** Blue Skynet --- START ***" , 10 , false)
+  end
 
---Create a new Skynet IADS object named redIADS
-blueIADS = SkynetIADS:create('blueIADS')
+  --Create a new Skynet IADS object named redIADS
+  blueIADS = SkynetIADS:create('blueIADS')
 
---All units with the prefix RED EWR will be EWRs for the redIADS
-blueIADS:addEarlyWarningRadarsByPrefix('B_EWR')
+  --All units with the prefix RED EWR will be EWRs for the redIADS
+  blueIADS:addEarlyWarningRadarsByPrefix('B_EWR')
 
---All units with the prefix RED SAM will be SAM sites for the red IADS
-blueIADS:addSAMSitesByPrefix('B_SAM')
+  --All units with the prefix RED SAM will be SAM sites for the red IADS
+  blueIADS:addSAMSitesByPrefix('B_SAM')
 
-if (crnge.skynetdebug == true) then
-  --activate the radio menu to toggle IADS Status output
-  blueIADS:addRadioMenu()
-end
+  if (crnge.skynetdebug == true) then
+    --activate the radio menu to toggle IADS Status output
+    blueIADS:addRadioMenu()
+  end
 
-if (crnge.skynetdebug == true) then
-  iadsDebugB = blueIADS:getDebugSettings()
-  iadsDebugB.IADSStatus = true
-  iadsDebugB.samWentDark = true
-  iadsDebugB.contacts = false
-  iadsDebugB.radarWentLive = true
-  iadsDebugB.noWorkingCommmandCenter = false
-  iadsDebugB.ewRadarNoConnection = false
-  iadsDebugB.samNoConnection = false
-  iadsDebugB.jammerProbability = true
-  iadsDebugB.addedEWRadar = false
-  iadsDebugB.hasNoPower = false
-  iadsDebugB.harmDefence = true
-  iadsDebugB.warnings = true
-end
+  if (crnge.skynetdebug == true) then
+    iadsDebugB = blueIADS:getDebugSettings()
+    iadsDebugB.IADSStatus = true
+    iadsDebugB.samWentDark = true
+    iadsDebugB.contacts = false
+    iadsDebugB.radarWentLive = true
+    iadsDebugB.noWorkingCommmandCenter = false
+    iadsDebugB.ewRadarNoConnection = false
+    iadsDebugB.samNoConnection = false
+    iadsDebugB.jammerProbability = true
+    iadsDebugB.addedEWRadar = false
+    iadsDebugB.hasNoPower = false
+    iadsDebugB.harmDefence = true
+    iadsDebugB.warnings = true
+  end
 
-blueIADS:setUpdateInterval(30)
+  blueIADS:setUpdateInterval(30)
 
---Turn on redIADS. This should always be the last line in the Skynet configuration.
-blueIADS:activate()
+  --Turn on redIADS. This should always be the last line in the Skynet configuration.
+  blueIADS:activate()
 
-if (crnge.debug == true) then
-  MESSAGE:New("*** Red Skynet --- START ***",10):ToAll()
-end
-
---Create a new Skynet IADS object named redIADS
-redIADS = SkynetIADS:create('redIADS')
-
---All units with the prefix RED EWR will be EWRs for the redIADS
-redIADS:addEarlyWarningRadarsByPrefix('R_EWR')
-
---All units with the prefix RED SAM will be SAM sites for the red IADS
-redIADS:addSAMSitesByPrefix('R_SAM')
-
---Set engagement radius
-redIADS:getSAMSites():setGoLiveRangeInPercent(60)
-redIADS:getSAMSitesByNatoName('SA-2 Guideline'):setGoLiveRangeInPercent(90)
-redIADS:getSAMSitesByNatoName('SA-5 Gammon'):setGoLiveRangeInPercent(40)
-redIADS:getSAMSitesByNatoName('SA-10 Grumble'):setGoLiveRangeInPercent(70)
-redIADS:getSAMSitesByNatoName('SA-17 Grizzly'):setGoLiveRangeInPercent(80)
-
-
--- Find all EWRs that Skynet is aware of and give them a % chance of detecting HARMs, and defending by shutting off
-redIADS:getEarlyWarningRadars():setHARMDetectionChance(66)
-
-if (crnge.skynetdebug == true) then
-  iadsDebug = redIADS:getDebugSettings()
-  iadsDebug.IADSStatus = true
-  iadsDebug.samWentDark = true
-  iadsDebug.contacts = false
-  iadsDebug.radarWentLive = true
-  iadsDebug.noWorkingCommmandCenter = false
-  iadsDebug.ewRadarNoConnection = false
-  iadsDebug.samNoConnection = false
-  iadsDebug.jammerProbability = true
-  iadsDebug.addedEWRadar = false
-  iadsDebug.hasNoPower = false
-  iadsDebug.harmDefence = true
-  iadsDebug.warnings = true
-end
-
-if (crnge.skynetdebug == true) then
-  iadsDebug.samSiteStatusEnvOutput = true
-  iadsDebug.earlyWarningRadarStatusEnvOutput = true
-end
-
-if (crnge.skynetdebug == true) then
-  --activate the radio menu to toggle IADS Status output
-  redIADS:addRadioMenu()
-end
-
-redIADS:setUpdateInterval(45)
-
---Turn on redIADS. This should always be the last line in the Skynet configuration.
-redIADS:activate()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---[[
-local spawnSchedulerBlueSkynet = SCHEDULER:New( nil, 
-  function()
-    blueforIADS = CSG8F.newSkynet('blueIADS','B_EWR','B_SAM',SkynetDebug)
-  end, {}, 60
-  )
-
-
-  if (Debug == true) then
+  if (crnge.debug == true) then
     MESSAGE:New("*** Red Skynet --- START ***",10):ToAll()
   end
 
-local spawnSchedulerRedSkynet = SCHEDULER:New( nil, 
-  function()
-    redforIADS = CSG8F.newSkynet('redIADS','R_EWR','R_SAM',SkynetDebug)
-  end, {}, 60
-  )
-]]
-env.info( "*** CSG8 *** Skynet -- Completed" )
+  --Create a new Skynet IADS object named redIADS
+  redIADS = SkynetIADS:create('redIADS')
+
+  --All units with the prefix RED EWR will be EWRs for the redIADS
+  redIADS:addEarlyWarningRadarsByPrefix('R_EWR')
+
+  --All units with the prefix RED SAM will be SAM sites for the red IADS
+  redIADS:addSAMSitesByPrefix('R_SAM')
+
+  --Set engagement radius
+  redIADS:getSAMSites():setGoLiveRangeInPercent(60)
+  redIADS:getSAMSitesByNatoName('SA-2 Guideline'):setGoLiveRangeInPercent(90)
+  redIADS:getSAMSitesByNatoName('SA-5 Gammon'):setGoLiveRangeInPercent(40)
+  redIADS:getSAMSitesByNatoName('SA-10 Grumble'):setGoLiveRangeInPercent(70)
+  redIADS:getSAMSitesByNatoName('SA-17 Grizzly'):setGoLiveRangeInPercent(80)
+
+
+  -- Find all EWRs that Skynet is aware of and give them a % chance of detecting HARMs, and defending by shutting off
+  redIADS:getEarlyWarningRadars():setHARMDetectionChance(66)
+
+  if (crnge.skynetdebug == true) then
+    iadsDebug = redIADS:getDebugSettings()
+    iadsDebug.IADSStatus = true
+    iadsDebug.samWentDark = true
+    iadsDebug.contacts = false
+    iadsDebug.radarWentLive = true
+    iadsDebug.noWorkingCommmandCenter = false
+    iadsDebug.ewRadarNoConnection = false
+    iadsDebug.samNoConnection = false
+    iadsDebug.jammerProbability = true
+    iadsDebug.addedEWRadar = false
+    iadsDebug.hasNoPower = false
+    iadsDebug.harmDefence = true
+    iadsDebug.warnings = true
+  end
+
+  if (crnge.skynetdebug == true) then
+    iadsDebug.samSiteStatusEnvOutput = true
+    iadsDebug.earlyWarningRadarStatusEnvOutput = true
+  end
+
+  if (crnge.skynetdebug == true) then
+    --activate the radio menu to toggle IADS Status output
+    redIADS:addRadioMenu()
+  end
+
+  redIADS:setUpdateInterval(45)
+
+  --Turn on redIADS. This should always be the last line in the Skynet configuration.
+  redIADS:activate()
+
+  env.info( "CRNGE | Skynet -- Completed" )
 
 
 end
@@ -506,7 +503,7 @@ end
 
 do
 if (crnge.debug == true) then
-  trigger.action.outText("*** REDFOR CAP Spawn -- START ***" , 10 , false)
+  trigger.action.outText("CRNGE | REDFOR CAP Spawn -- START" , 10 , false)
 end
 
 --RUSSIAN AIR FORCE (VKS)
@@ -569,7 +566,7 @@ A2ADispatcher_VKS:SetSquadronGci("MiG-21-Nalchik", 400,1000)
 A2ADispatcher_VKS:SetSquadronFuelThreshold("MiG-21-Nalchik", 0.4)
 A2ADispatcher_VKS:SetSquadronTakeoffFromParkingCold("MiG-21-Nalchik")
 
-env.info( "*** CSG8 *** REDFOR CAP Spawn -- Completed" )
+env.info( "CRNGE | REDFOR CAP Spawn -- Completed" )
 
 end
 ---------------------------------------------------
@@ -578,7 +575,7 @@ end
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  trigger.action.outText("*** Ship Patrol Setup --- START" , 10 , false)
+  trigger.action.outText("CRNGE | Ship Patrol Setup --- START" , 10 , false)
 end
 
 UNIT:FindByName("CVN-75 Harry S Truman"):PatrolRoute()
@@ -586,7 +583,7 @@ UNIT:FindByName("001 Liaoning"):PatrolRoute()
 
 
 
-env.info( "*** CSG8 *** Ship Patrols --- Completed" )
+env.info( "CRNGE | Ship Patrols --- Completed" )
 end
 ---------------------------------------------------
 -- Menu System
@@ -726,7 +723,7 @@ local Menu_Spawn_Master = missionCommands.addSubMenu('Unit Spawning')
         local choice_Tact1_4 = missionCommands.addCommand('SA-8 "GECKO" Battery', Menu_TactSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH94", groupTemplate = "SA-8 SAM Section", staticTemplate = nil}) 
         local choice_Tact1_5 = missionCommands.addCommand('SA-13 "GOPHER"', Menu_TactSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH94", groupTemplate = "SA-13 SAM Section", staticTemplate = nil})   
         local choice_Tact1_6 = missionCommands.addCommand('SA-19 "GRISOM"', Menu_TactSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH94", groupTemplate = "SA-6 SAM Battery", staticTemplate = nil})
-        local choice_Tact1_7 = missionCommands.addCommand('SA-3 "GOA" (HDS)', Menu_TactSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH94", groupTemplate = "SA-3 SAM Site", staticTemplate = CSG8_TEMPLATES.samTemplates[3].statics})
+        local choice_Tact1_7 = missionCommands.addCommand('SA-3 "GOA"', Menu_TactSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH94", groupTemplate = "SA-3 SAM Site", staticTemplate = CSG8_TEMPLATES.samTemplates[3].statics})
         local choice_Tact1_8 = missionCommands.addCommand('Roland ADS', Menu_TactSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH94", groupTemplate = "Roland SAM Battery", staticTemplate = nil})
         local choice_Tact1_9 = missionCommands.addCommand('MIM-120 NASAMS', Menu_TactSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH94", groupTemplate = "NASAMS SAM Battery", staticTemplate = nil})
         
@@ -735,15 +732,15 @@ local Menu_Spawn_Master = missionCommands.addSubMenu('Unit Spawning')
         local choice_Tact2_2 = missionCommands.addCommand('SA-11 "GADFLY"', Menu_TactSAMs2, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH08", groupTemplate = "SA-11 SAM Battery", staticTemplate = nil})  
         local choice_Tact2_3 = missionCommands.addCommand('SA-15 "GAUNTLET"', Menu_TactSAMs2, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH08", groupTemplate = "SA-15 SAM Section", staticTemplate = nil})   
         local choice_Tact2_4 = missionCommands.addCommand('SA-17 "GRIZZLY" (HDS)', Menu_TactSAMs2, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH08", groupTemplate = "SA-17 SAM Battery", staticTemplate = nil})
-        local choice_Tact2_5 = missionCommands.addCommand('SA-2 "Guideline" (HDS)', Menu_TactSAMs2, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH08", groupTemplate = "SA-2 SAM Site", staticTemplate = CSG8_TEMPLATES.samTemplates[1].statics})
-        local choice_Tact2_6 = missionCommands.addCommand('SA-2 "Guideline" MAD (HDS)', Menu_TactSAMs2, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH08", groupTemplate = "SA-2 SAM Site MAD", staticTemplate = CSG8_TEMPLATES.samTemplates[2].statics}) 
+        local choice_Tact2_5 = missionCommands.addCommand('SA-2 "Guideline"', Menu_TactSAMs2, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH08", groupTemplate = "SA-2 SAM Site", staticTemplate = CSG8_TEMPLATES.samTemplates[1].statics})
+        local choice_Tact2_6 = missionCommands.addCommand('SA-2 "Guideline" MAD', Menu_TactSAMs2, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH08", groupTemplate = "SA-2 SAM Site MAD", staticTemplate = CSG8_TEMPLATES.samTemplates[2].statics}) 
         local choice_Tact2_8 = missionCommands.addCommand('MIM-23 Hawk', Menu_TactSAMs2, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH08", groupTemplate = "Hawk SAM Battery", staticTemplate = nil})
         --local choice_Tact2_9 = missionCommands.addCommand('MIM-120 NASAMS', Menu_TactSAMs2, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range FH08", groupTemplate = "NASAMS SAM Battery", staticTemplate = nil})
       
       local Menu_StratSAMs = missionCommands.addSubMenu('SAM Range 3 (Grid NM)', Menu_SAM_Top)
         local rStratSAMChoice1 = missionCommands.addCommand('SA-5 "Gammon"', Menu_StratSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range NM", groupTemplate = "SA-5 SAM Site", staticTemplate = CSG8_TEMPLATES.samTemplates[1].statics})
         local rStratSAMChoice2 = missionCommands.addCommand('SA-10 "Grumble"', Menu_StratSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range NM", groupTemplate = "SA-10 SAM Site", staticTemplate = nil}) 
-        local rStratSAMChoice3 = missionCommands.addCommand('SA-10B "Grumble" (HDS)', Menu_StratSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range NM", groupTemplate = "SA-10B SAM Site", staticTemplate = nil})  
+        local rStratSAMChoice3 = missionCommands.addCommand('SA-12 "Gladiator/Giant" (HDS)', Menu_StratSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range NM", groupTemplate = "SA-12 SAM Site", staticTemplate = nil})  
         local rStratSAMChoice4 = missionCommands.addCommand('SA-20B "Gargoyle" (HDS)', Menu_StratSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range NM", groupTemplate = "SA-20B SAM Site", staticTemplate = nil})  
         local rStratSAMChoice5 = missionCommands.addCommand('MIM-104 Patriot', Menu_StratSAMs, CSG8F.crnge.spawn.spawnSAMandTemplateZone, {zone = "SAM Range NM", groupTemplate = "Patriot SAM Site", staticTemplate = nil})  
   
@@ -1020,6 +1017,22 @@ local Menu_Spawn_Master = missionCommands.addSubMenu('Unit Spawning')
             bomber2Group = "R_BMB_LL_2",
             bomber2Template = Spawn_R_LL3_Bombers_Template  
           }) 
+        
+      local Menu_Bombers_LL4 = missionCommands.addSubMenu('Low Level - F-15 "Strike Eagle"',Menu_Bombers_Top) 
+        local bomber_LL4_Choice1 = missionCommands.addCommand('1x Bomber Group - No Escort', Menu_Bombers_LL4, CSG8F.crnge.spawn.spawnBomberWaveLL, 
+          {
+            val = 1,
+            bomber1Group = "R_BMB_LL_1",
+            bomber1Template = Spawn_R_LL4_Bombers_Template
+          })
+        local bomber_LL4_Choice2 = missionCommands.addCommand('2x Bomber Group - No Escort', Menu_Bombers_LL4, CSG8F.crnge.spawn.spawnBomberWaveLL, 
+          {
+            val = 2,
+            bomber1Group = "R_BMB_LL_1",
+            bomber1Template = Spawn_R_LL4_Bombers_Template,
+            bomber2Group = "R_BMB_LL_2",
+            bomber2Template = Spawn_R_LL4_Bombers_Template  
+          }) 
 
   local MenuLL_Range_North = missionCommands.addSubMenu('Low Level Ranges', Menu_Spawn_Master)
     local choice_LL_north = missionCommands.addCommand('Spawn Northern Low Level Range', MenuLL_Range_North, CSG8F.crnge.spawn.spawnNorthLowLevelRange, {})
@@ -1054,44 +1067,31 @@ local Menu_Mission_Misc =  missionCommands.addSubMenu('Mission Control')
         local choice_confirm_weather = missionCommands.addCommand('Confirm Change Weather', Menu_ChangeMissionWeather, CSG8F.utils.setFlag, {flag= 99997})  
         
       local Menu_ChangeMissionSeason = missionCommands.addSubMenu('Change Mission Season', Menu_LoadMission)
-        local choice_confirm_season = missionCommands.addCommand('Confirm Change Season', Menu_ChangeMissionSeason, CSG8F.utils.setFlag, {flag= 99996})    
+        local choice_confirm_season = missionCommands.addCommand('Confirm Change Season', Menu_ChangeMissionSeason, CSG8F.utils.setFlag, {flag= 99996}) 
+        
+if (GROWLER ~= nil) then
+  local MenuGrowlerRadio = missionCommands.addSubMenu("Growler Radio")
+    local GrowlerStartVietnam         = missionCommands.addCommand("Play Vietnam Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, {playlist = musicPlaylistVietnam, announcerlist = GRLIB.announcer})
+    local GrowlerStartFighterPilot    = missionCommands.addCommand("Play Fighter Pilot Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, {playlist = musicPlaylistFighter, announcerlist = GRLIB.announcer})
+    local GrowlerStartBomber          = missionCommands.addCommand("Play Bomber Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, {playlist = musicPlaylistBomber, announcerlist = GRLIB.announcer})
+    local GrowlerStartGringos         = missionCommands.addCommand("Play Dos Gringos Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, {playlist = musicPlaylistGringos, announcerlist = GRLIB.announcer})
+    local GrowlerStartB7R             = missionCommands.addCommand("Play Anime Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, {playlist = musicPlaylistAnime, announcerlist = GRLIB.announcer})
+    local GrowlerRadioSkip            = missionCommands.addCommand("Skip Next Song", MenuGrowlerRadio, GROWLER.GROWLERSKIP)
+    local GrowlerRadioOff             = missionCommands.addCommand("Deactivate Growler Radio", MenuGrowlerRadio, GROWLER.GROWLERSTOP)
+end 
  
-local MenuGrowlerRadio = missionCommands.addSubMenu("Growler Radio")
-  local GrowlerStartVietnam         = missionCommands.addCommand("Play Vietnam Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, musicPlaylistVietnam)
-  local GrowlerStartFighterPilot    = missionCommands.addCommand("Play Fighter Pilot Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, musicPlaylistFighter)
-  local GrowlerStartBomber          = missionCommands.addCommand("Play Bomber Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, musicPlaylistBomber)
-  local GrowlerStartGringos         = missionCommands.addCommand("Play Dos Gringos Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, musicPlaylistGringos)
-  local GrowlerStartB7R             = missionCommands.addCommand("Play Anime Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, musicPlaylistAnime)
-  local GrowlerRadioSkip            = missionCommands.addCommand("Skip Next Song", MenuGrowlerRadio, GROWLER.GROWLERSKIP)
-  local GrowlerRadioOff             = missionCommands.addCommand("Deactivate Growler Radio", MenuGrowlerRadio, GROWLER.GROWLERSTOP)
  
  
  
- 
- 
-  env.info( "*** CSG8 *** Mission Control Commands --- Completed" )
+  env.info( "CSG8 | Mission Control Commands --- Completed" )
  
 end 
-if crnge.root ~= nil then
   
-  --Checks for sanitization of ifs and io
-  if lfs and io then
-  
-    local filePath = CSG8LIB.root .. musicNominal
-    
-    --Outputs a test sound file if sanitization has occured
-    mist.scheduleFunction(STTS.PlayMP3,{filePath,"251,241,1","AM,AM,AM","0.3","CRNGE BETTY",2}, timer.getTime() + 6)
-  else
-    env.info("MissionScipting.lua is not sanitized. STTS.PlayMP3 will not function.")
-  end
-
-end
-
---Outputs a successful message if the script is functioning properly.  
-mist.scheduleFunction(trigger.action.outText,{"REACTION ONLINE \nSENSORS ONLINE \nWEAPONS ONLINE \n\nALL SYSTEMS NOMINAL", 10, false}, timer.getTime() + 10)
+timer.scheduleFunction(crnge.playNominal, {}, timer.getTime() + 6)
+timer.scheduleFunction(crnge.textNominal, {}, timer.getTime() + 10)
 
 if (crnge.debug == true) then
-  trigger.action.outText("*** CRNGE Mission Script Loaded Successfully ***" , 10 , false)
+  trigger.action.outText("CRNGE | Mission Script Loaded Successfully ***" , 10 , false)
 end
 
-env.info( "[CSG8] CRNGE Mission Script Version dev-2023-07-28T15:41:17Z Loaded Successfully" )
+env.info( "CRNGE | CRNGE Mission Script Version 2023-11-19T14:32:28Z Loaded Successfully" )

@@ -36,7 +36,7 @@ CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA17", groupTemplat
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA17-1", groupTemplate = "SA-17 SAM Battery",verbose = false})
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA17-2", groupTemplate = "SA-17 SAM Battery",verbose = false})
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA17-3", groupTemplate = "SA-17 SAM Battery",verbose = false})
-CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA10B", groupTemplate = "SA-10B SAM Site",verbose = false})
+CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA12", groupTemplate = "SA-12 SAM Site",verbose = false})
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA19", groupTemplate = "SA-19 SAM Battery",verbose = false})
 
 -- Generic Strat Sites

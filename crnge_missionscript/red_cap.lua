@@ -4,7 +4,7 @@
 
 do
 if (crnge.debug == true) then
-  trigger.action.outText("*** REDFOR CAP Spawn -- START ***" , 10 , false)
+  trigger.action.outText("CRNGE | REDFOR CAP Spawn -- START" , 10 , false)
 end
 
 --RUSSIAN AIR FORCE (VKS)
@@ -67,6 +67,6 @@ A2ADispatcher_VKS:SetSquadronGci("MiG-21-Nalchik", 400,1000)
 A2ADispatcher_VKS:SetSquadronFuelThreshold("MiG-21-Nalchik", 0.4)
 A2ADispatcher_VKS:SetSquadronTakeoffFromParkingCold("MiG-21-Nalchik")
 
-env.info( "*** CSG8 *** REDFOR CAP Spawn -- Completed" )
+env.info( "CRNGE | REDFOR CAP Spawn -- Completed" )
 
 end

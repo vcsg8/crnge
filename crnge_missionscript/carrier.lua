@@ -59,6 +59,6 @@ heloCSG=RESCUEHELO:New("CVN-75 Harry S Truman", "SH-60")
 heloCSG:Start()
 
 ]]
-env.info( "*** CSG8 *** Carrier Unit Spawning --- Completed" )
+env.info( "CSG8 | Carrier Unit Spawning --- Completed" )
 
 end

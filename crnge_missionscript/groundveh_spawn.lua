@@ -3,7 +3,7 @@
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  trigger.action.outText("*** Ground Vehicle Spawning --- START ***" , 10 , false)
+  trigger.action.outText("CRNGE | Ground Vehicle Spawning --- START" , 10 , false)
 end
 
 --Roadside convoys w/ air escort
@@ -44,7 +44,7 @@ Moving_Convoy_03 = SPAWN:New( "R_CVY_03")
   :InitRandomizeTemplate( Template_Red_Convoy )
   :SpawnScheduled( 300, 0)
 
-
+--[[
 AddDismounts("R_CNV-1","Rifle")
 AddDismounts("R_CNV-2","Rifle")
 AddDismounts("R_CNV-3","MANPADS")
@@ -60,7 +60,7 @@ AddDismounts("R_CITY_MOV_VEH-2-2","Rifle")
 AddDismounts("R_CITY_MOV_VEH-2-3","Rifle")
 AddDismounts("R_CITY_MOV_VEH-3-1","Rifle")
 AddDismounts("R_CITY_MOV_VEH-3-2","Rifle")
-AddDismounts("R_CITY_MOV_VEH-3-3","MANPADS")
+AddDismounts("R_CITY_MOV_VEH-3-3","MANPADS")]]
 
- env.info( "*** CSG8 *** Ground Vehicle Spawning --- Completed" )
+ env.info( "CRNGE | Ground Vehicle Spawning --- Completed" )
 end

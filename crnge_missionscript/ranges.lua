@@ -3,7 +3,7 @@
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  MESSAGE:New("*** Target Range --- START ***",10):ToAll()
+  MESSAGE:New("CRNGE | Target Range --- START",10):ToAll()
 end
 
 
@@ -19,5 +19,5 @@ RangeCN02 = RANGE:New("Range KobOld")
 RangeCN02:Start()
 
 
- env.info( "*** CSG8 *** Target Ranges --- Completed" )
+ env.info( "CRNGE | Target Ranges --- Completed" )
 end
