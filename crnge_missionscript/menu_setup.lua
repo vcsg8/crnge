@@ -3,7 +3,7 @@
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  trigger.action.outText("*** Menu Setup --- START" , 10 , false)
+  trigger.action.outText("CRNGE | Menu Setup --- START" , 10 , false)
 end
 
 local Menu_Spawn_Master = missionCommands.addSubMenu('Unit Spawning')
@@ -491,11 +491,12 @@ if (GROWLER ~= nil) then
     local GrowlerStartB7R             = missionCommands.addCommand("Play Anime Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, {playlist = musicPlaylistAnime, announcerlist = GRLIB.announcer})
     local GrowlerRadioSkip            = missionCommands.addCommand("Skip Next Song", MenuGrowlerRadio, GROWLER.GROWLERSKIP)
     local GrowlerRadioOff             = missionCommands.addCommand("Deactivate Growler Radio", MenuGrowlerRadio, GROWLER.GROWLERSTOP)
+else
+   env.info( "CRNGE | Growler Radio is not installed. Growler commands not added." ) 
 end 
  
  
  
- 
-  env.info( "CSG8 | Mission Control Commands --- Completed" )
+env.info( "CRNGE | Mission Control Commands --- Completed" )
  
 end 

@@ -3,12 +3,12 @@
 --
 -- by isotaan
 --
--- Version: dev-2023-11-19T14:57:51Z
+-- Version: dev-2023-11-20T08:16:46Z
 --
 -- Creates pre-fabricated groups and static objects for the CRNGE
 -------------------------------------------------
 
-env.info("csg8-crnge-sitespawner | Ver: dev-2023-11-19T14:57:51Z starting...")
+env.info("csg8-crnge-sitespawner | Ver: dev-2023-11-20T08:16:46Z starting...")
 
 --Strategic Sites (no canyon sites)
 CSG8F.spawn.spawnStaticTemplate({zone = "SPAWN_FOB-1", staticTemplate = CSG8_TEMPLATES.fobTemplates[1].statics})
@@ -47,7 +47,7 @@ CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA17", groupTemplat
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA17-1", groupTemplate = "SA-17 SAM Battery",verbose = false})
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA17-2", groupTemplate = "SA-17 SAM Battery",verbose = false})
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA17-3", groupTemplate = "SA-17 SAM Battery",verbose = false})
-CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA10B", groupTemplate = "SA-10B SAM Site",verbose = false})
+CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA12", groupTemplate = "SA-12 SAM Site",verbose = false})
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA19", groupTemplate = "SA-19 SAM Battery",verbose = false})
 
 -- Generic Strat Sites
@@ -70,4 +70,4 @@ CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA8", groupTemplate
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA8-1", groupTemplate = "SA-8 SAM Section",verbose = false})
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA6", groupTemplate = "SA-6 SAM Battery",verbose = false})
 
-env.info("csg8-crnge-sitespawner | Ver: dev-2023-11-19T14:57:51Z loaded")
+env.info("csg8-crnge-sitespawner | Ver: dev-2023-11-20T08:16:46Z loaded")

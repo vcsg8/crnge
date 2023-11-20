@@ -1,14 +1,14 @@
 --[[
 
 CSG8 CRNGE Mission Script
-Version: dev-2023-11-19T14:32:28Z
+Version: dev-2023-11-20T08:16:50Z
 Authors: isotaan
 
 ]]
 
 --Setting up debugging
 
-env.info( "CRNGE | CRNGE Mission Script dev-2023-11-19T14:32:28Z Loading..." ) 
+env.info( "CRNGE | CRNGE Mission Script dev-2023-11-20T08:16:50Z Loading..." ) 
 
 crnge = {}
 crnge.__index = crnge
@@ -232,7 +232,7 @@ heloCSG=RESCUEHELO:New("CVN-75 Harry S Truman", "SH-60")
 heloCSG:Start()
 
 ]]
-env.info( "CSG8 | Carrier Unit Spawning --- Completed" )
+env.info( "CRNGE | Carrier Unit Spawning --- Completed" )
 
 end
 ---------------------------------------------------
@@ -590,7 +590,7 @@ end
 ---------------------------------------------------
 do
 if (crnge.debug == true) then
-  trigger.action.outText("*** Menu Setup --- START" , 10 , false)
+  trigger.action.outText("CRNGE | Menu Setup --- START" , 10 , false)
 end
 
 local Menu_Spawn_Master = missionCommands.addSubMenu('Unit Spawning')
@@ -1078,12 +1078,13 @@ if (GROWLER ~= nil) then
     local GrowlerStartB7R             = missionCommands.addCommand("Play Anime Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, {playlist = musicPlaylistAnime, announcerlist = GRLIB.announcer})
     local GrowlerRadioSkip            = missionCommands.addCommand("Skip Next Song", MenuGrowlerRadio, GROWLER.GROWLERSKIP)
     local GrowlerRadioOff             = missionCommands.addCommand("Deactivate Growler Radio", MenuGrowlerRadio, GROWLER.GROWLERSTOP)
+else
+   env.info( "CRNGE | Growler Radio is not installed. Growler commands not added." ) 
 end 
  
  
  
- 
-  env.info( "CSG8 | Mission Control Commands --- Completed" )
+env.info( "CRNGE | Mission Control Commands --- Completed" )
  
 end 
   
@@ -1094,4 +1095,4 @@ if (crnge.debug == true) then
   trigger.action.outText("CRNGE | Mission Script Loaded Successfully ***" , 10 , false)
 end
 
-env.info( "CRNGE | CRNGE Mission Script Version dev-2023-11-19T14:32:28Z Loaded Successfully" )
+env.info( "CRNGE | CRNGE Mission Script Version dev-2023-11-20T08:16:50Z Loaded Successfully" )
