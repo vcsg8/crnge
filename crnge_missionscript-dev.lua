@@ -1,14 +1,14 @@
 --[[
 
 CSG8 CRNGE Mission Script
-Version: dev-2023-11-20T08:16:50Z
+Version: dev-2024-01-15T20:55:21Z
 Authors: isotaan
 
 ]]
 
 --Setting up debugging
 
-env.info( "CRNGE | CRNGE Mission Script dev-2023-11-20T08:16:50Z Loading..." ) 
+env.info( "CRNGE | CRNGE Mission Script dev-2024-01-15T20:55:21Z Loading..." ) 
 
 crnge = {}
 crnge.__index = crnge
@@ -1047,14 +1047,19 @@ local Menu_AI_Cleanup = missionCommands.addSubMenu('AI Cleanup',Menu_Spawn_Maste
   local choice_cleanup6 = missionCommands.addCommand('Cleanup Red Ships', Menu_AI_Cleanup, CSG8F.utils.cleanUpZone, "CRNGEZONE_SHIPS")
   local choice_cleanup7 = missionCommands.addCommand('Cleanup North Low Level Range', Menu_AI_Cleanup, CSG8F.utils.cleanUpZone, "CRNGEZONE_LLN")  
  
-local Menu_Mission_Misc =  missionCommands.addSubMenu('Mission Control')
 
-  local Menu_CSG_Alarm = missionCommands.addSubMenu('CSG Ship Options', Menu_Mission_Misc)
+
+  local Menu_CSG_Alarm = missionCommands.addSubMenu('CSG Ship Options')
+    local choice_cv_light_auto = missionCommands.addCommand('CVN Lights AUTO', Menu_CSG_Alarm, CSG8F.utils.setFlag, {flag= 90003})
+    local choice_cv_light_nav = missionCommands.addCommand('CVN Lights NAV', Menu_CSG_Alarm, CSG8F.utils.setFlag, {flag= 90004})
+    local choice_cv_light_rec = missionCommands.addCommand('CVN Lights RECOVERY', Menu_CSG_Alarm, CSG8F.utils.setFlag, {flag= 90002})
+    local choice_cv_light_lau = missionCommands.addCommand('CVN Lights LAUNCH', Menu_CSG_Alarm, CSG8F.utils.setFlag, {flag= 90001})
+    local choice_cv_light_off = missionCommands.addCommand('CVN Lights OFF', Menu_CSG_Alarm, CSG8F.utils.setFlag, {flag= 90000})
     local choice_CSG_red = missionCommands.addCommand('Weapons COLD', Menu_CSG_Alarm, CSG8F.utils.alarmGreen, {name = "Carrier Strike Group 8"})
     local choice_CSG_green = missionCommands.addCommand('Weapons HOT', Menu_CSG_Alarm, CSG8F.utils.alarmRed, {name = "Carrier Strike Group 8"})
 
 
- 
+local Menu_Mission_Misc =  missionCommands.addSubMenu('Mission Control') 
   local Menu_LoadMission = missionCommands.addSubMenu('Load Mission', Menu_Mission_Misc)
 
     local Menu_ReloadMission = missionCommands.addSubMenu('Reload Current Mission', Menu_LoadMission)
@@ -1095,4 +1100,4 @@ if (crnge.debug == true) then
   trigger.action.outText("CRNGE | Mission Script Loaded Successfully ***" , 10 , false)
 end
 
-env.info( "CRNGE | CRNGE Mission Script Version dev-2023-11-20T08:16:50Z Loaded Successfully" )
+env.info( "CRNGE | CRNGE Mission Script Version dev-2024-01-15T20:55:21Z Loaded Successfully" )
