@@ -23,10 +23,6 @@ CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA5", groupTemplate
 
 --WW2 Range Spawns
 CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
-CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF-1", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
-CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF-2", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
-CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF-3", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
-CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF-4", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
 CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_FLAK88", groupTemplate = "Flak 88 Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
 CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_FLAK88-1", groupTemplate = "Flak 88 Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
 

@@ -6,14 +6,6 @@ if (crnge.debug == true) then
   trigger.action.outText("CRNGE | Air Unit Spawning --- START" , 10 , false)
 end
 
-
-Spawn_E3_Overlord = SPAWN:New( "Overlord" )
-    :InitLimit( 1,0 )
-    :InitDelayOff()
-    :InitCleanUp( 300 )
-    :InitRepeatOnLanding()
-    :SpawnScheduled(120,0.2)
-
  REDFOR_AWACS = SPAWN:New("RED_AWACS"):InitLimit( 1, 0 )
     :InitRepeatOnLanding()
     :InitDelayOff()

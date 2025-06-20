@@ -3,12 +3,12 @@
 --
 -- by isotaan
 --
--- Version: dev-2023-11-20T08:16:46Z
+-- BUILD: dev-2025-06-20 T12:53:11Z
 --
 -- Creates pre-fabricated groups and static objects for the CRNGE
 -------------------------------------------------
 
-env.info("csg8-crnge-sitespawner | Ver: dev-2023-11-20T08:16:46Z starting...")
+env.info("csg8-crnge-sitespawner | Ver: dev-2025-06-20 T12:53:11Z starting...")
 
 --Strategic Sites (no canyon sites)
 CSG8F.spawn.spawnStaticTemplate({zone = "SPAWN_FOB-1", staticTemplate = CSG8_TEMPLATES.fobTemplates[1].statics})
@@ -34,10 +34,6 @@ CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA5", groupTemplate
 
 --WW2 Range Spawns
 CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
-CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF-1", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
-CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF-2", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
-CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF-3", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
-CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_BOF-4", groupTemplate = "Bofors Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
 CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_FLAK88", groupTemplate = "Flak 88 Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
 CSG8F.crnge.spawn.spawnGroupandTemplateZone({zone = "SPAWN_AAA_FLAK88-1", groupTemplate = "Flak 88 Battery", staticTemplate = CSG8_TEMPLATES.aaaTemplates[1].statics,verbose = false})
 
@@ -70,4 +66,4 @@ CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA8", groupTemplate
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA8-1", groupTemplate = "SA-8 SAM Section",verbose = false})
 CSG8F.crnge.spawn.spawnSAMandTemplateZone({zone = "SPAWN_SAM_SA6", groupTemplate = "SA-6 SAM Battery",verbose = false})
 
-env.info("csg8-crnge-sitespawner | Ver: dev-2023-11-20T08:16:46Z loaded")
+env.info("csg8-crnge-sitespawner | Build: dev-2025-06-20 T12:53:11Z loaded")

@@ -1,2 +1,2 @@
 
-env.info("csg8-crnge-sitespawner | Ver: {VERSION} loaded")
+env.info("csg8-crnge-sitespawner | Build: {BUILD} loaded")

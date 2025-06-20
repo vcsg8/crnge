@@ -8,8 +8,6 @@ if (crnge.debug == true) then
 end
 
 UNIT:FindByName("CVN-75 Harry S Truman"):PatrolRoute()
-UNIT:FindByName("001 Liaoning"):PatrolRoute()
-
 
 
 env.info( "CRNGE | Ship Patrols --- Completed" )

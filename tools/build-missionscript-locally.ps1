@@ -18,7 +18,6 @@ $filesList = @(
     (Resolve-Path "$inputDir\groundveh_spawn.lua").Path,
     (Resolve-Path "$inputDir\naval_spawn.lua").Path,
     (Resolve-Path "$inputDir\ranges.lua").Path,
-    (Resolve-Path "$inputDir\skynet.lua").Path,
     (Resolve-Path "$inputDir\red_cap.lua").Path,
     (Resolve-Path "$inputDir\ship_patrols.lua").Path,
     (Resolve-Path "$inputDir\menu_setup.lua").Path
@@ -43,10 +42,10 @@ $allFiles | Where-Object { Test-Path $_ } | ForEach-Object {
 }
 
 # Get the current ISO timestamp and prepend with 'dev-'
-$timestamp = Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"
-$version = "dev-$timestamp"
+$timestamp = Get-Date -Format "yyyy-MM-dd THH:mm:ssZ"
+$build = "2.00.0031-$timestamp"
 
-# Replace {VERSION} with the version string
-(Get-Content $outputFile) -replace '\{VERSION\}', $version | Set-Content $outputFile
+# Replace {BUILD} with the version string
+(Get-Content $outputFile) -replace '\{BUILD\}', $build | Set-Content $outputFile
 
-Write-Host "crnge-missionscript build complete. Version: $version"
+Write-Host "crnge-missionscript build complete. Build: $build"

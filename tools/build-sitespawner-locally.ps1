@@ -34,10 +34,10 @@ $allFiles | Where-Object { Test-Path $_ } | ForEach-Object {
 }
 
 # Get the current ISO timestamp and prepend with 'dev-'
-$timestamp = Get-Date -Format "yyyy-MM-ddTHH:mm:ssZ"
-$version = "dev-$timestamp"
+$timestamp = Get-Date -Format "yyyy-MM-dd THH:mm:ssZ"
+$build = "dev-$timestamp"
 
 # Replace {VERSION} with the version string
-(Get-Content $outputFile) -replace '\{VERSION\}', $version | Set-Content $outputFile
+(Get-Content $outputFile) -replace '\{BUILD\}', $build | Set-Content $outputFile
 
-Write-Host "crnge-sitespawner build complete. Version: $version"
+Write-Host "crnge-sitespawner build complete. Build: $build"

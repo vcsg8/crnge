@@ -1,14 +1,17 @@
 --[[
 
 CSG8 CRNGE Mission Script
-Version: {VERSION}
+BUILD: {BUILD}
+VERSION: 2.00.0031
 Authors: isotaan
 
 ]]
 
 --Setting up debugging
 
-env.info( "CRNGE | CRNGE Mission Script {VERSION} Loading..." ) 
+env.info( "CRNGE | CRNGE Mission script build {BUILD} Loading..." ) 
+
+env.setErrorMessageBoxEnabled(false)
 
 crnge = {}
 crnge.__index = crnge
@@ -19,8 +22,6 @@ crnge.root = nil
 crnge.introMusic = nil
 
  --Default sound message that plays at the end of this script
-
-
 if (homefile == true) then
   crnge.root = "G:\\DCS Sound Files\\Music"
   crnge.introMusic = crnge.root .."999_Nominal.mp3"
@@ -30,15 +31,11 @@ else
 end
 
 --Checks for JACKAL. Required for the CRNGE to work correctly.
-if jackal == nil then
+if Jackal == nil then
    trigger.action.outText("CRNGE | CRNGE Requires JACKAL. Some functionality will not be supported." , 10 , false)
-else
-  --Enables Jackal logging
-  jackal.enums.preferences.markpoint_logging = true
 end
 
- 
-if (crnge.debug == true) then
+if (crnge.debug == true) then --If debugging is enabled, output a message to the screen
     trigger.action.outText("CRNGE | CRNGE Mission Script --- START" , 10 , false)
 end
   
@@ -55,5 +52,5 @@ function crnge.playNominal()
 end
   
 function crnge.textNominal()
-  trigger.action.outText("REACTION ONLINE \nSENSORS ONLINE \nWEAPONS ONLINE \n\nALL SYSTEMS NOMINAL", 10)
+  trigger.action.outText("REACTOR ONLINE \nSENSORS ONLINE \nWEAPONS ONLINE \n\nALL SYSTEMS NOMINAL", 10)
 end
