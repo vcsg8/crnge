@@ -19,7 +19,6 @@ $filesList = @(
     (Resolve-Path "$inputDir\naval_spawn.lua").Path,
     (Resolve-Path "$inputDir\ranges.lua").Path,
     (Resolve-Path "$inputDir\red_cap.lua").Path,
-    (Resolve-Path "$inputDir\ship_patrols.lua").Path,
     (Resolve-Path "$inputDir\menu_setup.lua").Path
 )
 

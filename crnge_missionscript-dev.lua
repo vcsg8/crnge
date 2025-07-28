@@ -1,7 +1,7 @@
 --[[
 
 CSG8 CRNGE Mission Script
-BUILD: 2.00.0031-2025-06-20 T11:58:20Z
+BUILD: 2.00.0031-2025-06-24 T21:36:58Z
 VERSION: 2.00.0031
 Authors: isotaan
 
@@ -9,7 +9,7 @@ Authors: isotaan
 
 --Setting up debugging
 
-env.info( "CRNGE | CRNGE Mission script build 2.00.0031-2025-06-20 T11:58:20Z Loading..." ) 
+env.info( "CRNGE | CRNGE Mission script build 2.00.0031-2025-06-24 T21:36:58Z Loading..." ) 
 
 env.setErrorMessageBoxEnabled(false)
 
@@ -424,20 +424,6 @@ end
 
 env.info( "CRNGE | REDFOR CAP Spawn -- Completed" )
 
-end
----------------------------------------------------
--- SHIP PATROLS
---
----------------------------------------------------
-do
-if (crnge.debug == true) then
-  trigger.action.outText("CRNGE | Ship Patrol Setup --- START" , 10 , false)
-end
-
-UNIT:FindByName("CVN-75 Harry S Truman"):PatrolRoute()
-
-
-env.info( "CRNGE | Ship Patrols --- Completed" )
 end
 ---------------------------------------------------
 -- Menu System -- No local
@@ -955,6 +941,24 @@ end
  
  
 env.info( "CRNGE | Mission Control Commands --- Completed" )
+---------------------------------------------------
+-- SHIP PATROLS
+--
+---------------------------------------------------
+
+--DEPRECIATED 2025-06-24
+--[[
+do
+if (crnge.debug == true) then
+  trigger.action.outText("CRNGE | Ship Patrol Setup --- START" , 10 , false)
+end
+
+UNIT:FindByName("CVN-75 Harry S Truman"):PatrolRoute()
+
+
+env.info( "CRNGE | Ship Patrols --- Completed" )
+end
+]]
   
 timer.scheduleFunction(crnge.playNominal, {}, timer.getTime() + 6)
 timer.scheduleFunction(crnge.textNominal, {}, timer.getTime() + 10)
@@ -963,4 +967,4 @@ if (crnge.debug == true) then
   trigger.action.outText("CRNGE | Mission Script Loaded Successfully ***" , 10 , false)
 end
 
-env.info( "CRNGE | CRNGE Mission script build 2.00.0031-2025-06-20 T11:58:20Z loaded successfully" )
+env.info( "CRNGE | CRNGE Mission script build 2.00.0031-2025-06-24 T21:36:58Z loaded successfully" )
