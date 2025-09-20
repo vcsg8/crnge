@@ -1,15 +1,15 @@
 --[[
 
 CSG8 CRNGE Mission Script
-BUILD: 2.00.0031-2025-06-24 T21:36:58Z
-VERSION: 2.00.0031
+BUILD: 2.00.0033-2025-09-19 T18:45:57Z
+VERSION: 2.00.0033
 Authors: isotaan
 
 ]]
 
 --Setting up debugging
 
-env.info( "CRNGE | CRNGE Mission script build 2.00.0031-2025-06-24 T21:36:58Z Loading..." ) 
+env.info( "CRNGE | CRNGE Mission script version 2.00.0033 Loading..." ) 
 
 env.setErrorMessageBoxEnabled(false)
 
@@ -21,15 +21,6 @@ crnge.a2adebug = false --Turns on message debugging for MOOSE's A2ACAP
 crnge.root = nil
 crnge.introMusic = nil
 
- --Default sound message that plays at the end of this script
-if (homefile == true) then
-  crnge.root = "G:\\DCS Sound Files\\Music"
-  crnge.introMusic = crnge.root .."999_Nominal.mp3"
-else
-  crnge.root = "D:\\STE_Files\\Music\\"
-  crnge.introMusic = crnge.root .."999_Nominal.mp3"
-end
-
 --Checks for JACKAL. Required for the CRNGE to work correctly.
 if Jackal == nil then
    trigger.action.outText("CRNGE | CRNGE Requires JACKAL. Some functionality will not be supported." , 10 , false)
@@ -40,7 +31,20 @@ if (crnge.debug == true) then --If debugging is enabled, output a message to the
 end
   
  _SETTINGS:SetPlayerMenuOff()
- 
+---------------------------------------------------
+-- CRNGE Unique Sounds
+---------------------------------------------------
+---
+
+--Default sound message that plays at the end of this script
+if (homefile == true) then
+  crnge.root = "G:\\DCS Sound Files\\Music"
+  crnge.introMusic = crnge.root .."999_Nominal.mp3"
+else
+  crnge.root = "D:\\STE_Files\\Music\\"
+  crnge.introMusic = crnge.root .."999_Nominal.mp3"
+end
+
 function crnge.playNominal()
 
   if lfs and io then
@@ -54,6 +58,9 @@ end
 function crnge.textNominal()
   trigger.action.outText("REACTOR ONLINE \nSENSORS ONLINE \nWEAPONS ONLINE \n\nALL SYSTEMS NOMINAL", 10)
 end
+
+timer.scheduleFunction(crnge.playNominal, {}, timer.getTime() + 6)
+timer.scheduleFunction(crnge.textNominal, {}, timer.getTime() + 10)
 ---------------------------------------------------
 -- Group Templates
 ---------------------------------------------------
@@ -166,70 +173,6 @@ do
   }
 
   env.info( "CRNGE | Group Templates --- Completed" )
-
-end
----------------------------------------------------
--- Carrier Unit Spawning
----------------------------------------------------
-do
-if (crnge.debug == true) then
-  trigger.action.outText("*** Carrier Unit Spawning --- START ***" , 10 , false)
-end
-
--- *** Carrier Patrol ***
---GROUP:FindByName("Carrier Strike Group 8"):PatrolRouteRandom(37)
---GROUP:FindByName("Liaoning Task Force"):PatrolRouteRandom(37)
-
-
---[[ *** S-3 Recovery Tanker ***
-local tankerCSG=RECOVERYTANKER:New(UNIT:FindByName("CVN-75 Harry S Truman"), "S-3")
-    :SetTACAN(85, "TX1", "X")
-    :SetRadio(285)
-    :SetCallsign(CALLSIGN.Tanker.Texaco, 1)
-    :SetAltitude(6000)
-    :SetSpeed(274) --250 IAS
-    :SetRacetrackDistances(10,5)
-    :SetTakeoffAir()
-
-
-tankerCSG:Start()
-]]
-
---[[ *** KC-130 Tanker ***
-local tanker130CSG=RECOVERYTANKER:New(UNIT:FindByName("CVN-75 Harry S Truman"), "KC-130")
-    :SetHomeBase(AIRBASE.PersianGulf.Fujairah_Intl)
-    :SetTACAN(86, "TX2", "X")
-    :SetRadio(286)
-    :SetCallsign(CALLSIGN.Tanker.Texaco, 2)
-    :SetAltitude(8000)
-    :SetSpeed(290) --250 IAS
-    :SetRacetrackDistances(10,5)
-    :SetTakeoffAir()
-
-tanker130CSG:Start()
-]]
-
---
---[[ *** AWACS ***
-local awacsDarkstar=RECOVERYTANKER:New(UNIT:FindByName("CVN-75 Harry S Truman"), "E-2")
-    :SetAWACS()
-    :SetCallsign(CALLSIGN.AWACS.Darkstar, 1)
-    :SetAltitude(25000)
-    :SetRadio(252.75)
-    :SetTakeoffAir()
-
-awacsDarkstar:Start()
-]]
-
---[[ *** Rescue Helo ***
-heloCSG=RESCUEHELO:New("CVN-75 Harry S Truman", "SH-60")
-    :SetModex(22)
-    :SetHomeBase(AIRBASE:FindByName("CG-66 Hue City"))
-
-heloCSG:Start()
-
-]]
-env.info( "CRNGE | Carrier Unit Spawning --- Completed" )
 
 end
 ---------------------------------------------------
@@ -924,7 +867,12 @@ end
         
        Menu_ChangeMissionSeason = missionCommands.addSubMenu('Change Mission Season', Menu_LoadMission)
          choice_confirm_season = missionCommands.addCommand('Confirm Change Season', Menu_ChangeMissionSeason, CSG8F.utils.setFlag, {flag= 99996}) 
-        
+ 
+env.info( "CRNGE | Mission Control Commands --- Completed" )
+---------------------------------------------------
+-- Growler Radio Menu System System
+---------------------------------------------------
+
 if (GROWLER ~= nil) then
    MenuGrowlerRadio = missionCommands.addSubMenu("Growler Radio")
      GrowlerStartVietnam         = missionCommands.addCommand("Play Vietnam Playlist", MenuGrowlerRadio, GROWLER.RADIOINIT, {playlist = musicPlaylistVietnam, announcerlist = GRLIB.announcer})
@@ -937,34 +885,11 @@ if (GROWLER ~= nil) then
 else
    env.info( "CRNGE | Growler Radio is not installed. Growler commands not added." ) 
 end 
- 
- 
- 
-env.info( "CRNGE | Mission Control Commands --- Completed" )
----------------------------------------------------
--- SHIP PATROLS
---
----------------------------------------------------
-
---DEPRECIATED 2025-06-24
---[[
-do
-if (crnge.debug == true) then
-  trigger.action.outText("CRNGE | Ship Patrol Setup --- START" , 10 , false)
-end
-
-UNIT:FindByName("CVN-75 Harry S Truman"):PatrolRoute()
-
-
-env.info( "CRNGE | Ship Patrols --- Completed" )
-end
-]]
   
-timer.scheduleFunction(crnge.playNominal, {}, timer.getTime() + 6)
-timer.scheduleFunction(crnge.textNominal, {}, timer.getTime() + 10)
+
 
 if (crnge.debug == true) then
   trigger.action.outText("CRNGE | Mission Script Loaded Successfully ***" , 10 , false)
 end
 
-env.info( "CRNGE | CRNGE Mission script build 2.00.0031-2025-06-24 T21:36:58Z loaded successfully" )
+env.info( "CRNGE | CRNGE Mission script loaded successfully\nBuild: 2.00.0033-2025-09-19 T18:45:57Z" )

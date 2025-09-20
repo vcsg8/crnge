@@ -1,3 +1,343 @@
+--[[
+
+CSG8 CRNGE Mission Script
+BUILD: 2.00.0033-2025-09-19 T18:45:57Z
+VERSION: 2.00.0033
+Authors: isotaan
+
+]]
+
+--Setting up debugging
+
+env.info( "CRNGE | CRNGE Mission script version 2.00.0033 Loading..." ) 
+
+env.setErrorMessageBoxEnabled(false)
+
+crnge = {}
+crnge.__index = crnge
+crnge.debug = false --For verbose debugging of each section of this script
+crnge.skynetdebug = false --Turns on the message debug for Skynet
+crnge.a2adebug = false --Turns on message debugging for MOOSE's A2ACAP
+crnge.root = nil
+crnge.introMusic = nil
+
+--Checks for JACKAL. Required for the CRNGE to work correctly.
+if Jackal == nil then
+   trigger.action.outText("CRNGE | CRNGE Requires JACKAL. Some functionality will not be supported." , 10 , false)
+end
+
+if (crnge.debug == true) then --If debugging is enabled, output a message to the screen
+    trigger.action.outText("CRNGE | CRNGE Mission Script --- START" , 10 , false)
+end
+  
+ _SETTINGS:SetPlayerMenuOff()
+---------------------------------------------------
+-- Group Templates
+---------------------------------------------------
+do
+
+    if (crnge.debug == true) then
+      trigger.action.outText("CRNGE | Group Templates --- START" , 10 , false)
+    end
+
+  Template_Red_Convoy = { 
+    'R_CONVOY', 
+    'R_CONVOY-1', 
+    'R_CONVOY-2', 
+    'R_CONVOY-3',  
+    'R_CONVOY-4',  
+    'R_CONVOY-5',
+    'R_CONVOY-6',
+    'R_CONVOY-7',
+    'R_CONVOY-8',
+    'R_CONVOY-9',
+    'R_CONVOY-10',
+    }
+
+  Template_Red_Helicopter = { 
+    'R_TMP_HELO_AH1', 
+    'R_TMP_HELO_AH64', 
+    'R_TMP_HELO_KA50',
+    'R_TMP_HELO_MI24AA',
+    'R_TMP_HELO_MI24AG',
+    'R_TMP_HELO_MI28',
+    'R_TMP_HELO_GAZAA',
+    'R_TMP_HELO_UH60',
+    'R_TMP_HELO_UH1',
+    'R_TMP_HELO_OH58',
+    'R_TMP_HELO_MI8',
+    'R_TMP_HELO_MI26',
+    'R_TMP_HELO_KA27',
+    'R_TMP_HELO_CH47',
+    'R_TMP_HELO_KA50III'
+    }
+
+  Spawn_R_Escort_Template = { 
+    'ESC_SU27', 
+    'ESC_MIG23',
+    'ESC_SU30'
+    }
+
+  Spawn_R_WW2_Escort_Template = { 
+    'Two-Ship Bf 109', 
+    'Two-Ship P-47',
+    'Two-Ship P-51'
+  }
+
+  Spawn_R_CW1_Escort_Template = { 
+    'ESC_F5',
+    'ESC_F1EQ',
+    'ESC_F4',
+    'ESC_F16',
+    'ESC_F14',
+    'ESC_F18'
+  }
+
+  Spawn_R_CW2_Escort_Template = { 
+    'ESC_MIG21', 
+    'ESC_MIG19',
+    'ESC_MIG23'
+  }
+
+  Spawn_R_CW3_Escort_Template = { 
+    'ESC_SU27', 
+    'ESC_SU30',
+    'ESC_JF17',
+    'ESC_J11'
+  }
+
+  Spawn_R_Bombers_Template = { 
+    'A2G_BOMBERS_TU22'
+    }
+
+  Spawn_R_WW2_Bombers_Template = { 
+    'A2G_BOMBERS_A20'
+    }
+
+  Spawn_R_CW1_Bombers_Template = { 
+    'A2G_BOMBERS_B52'
+  }
+
+  Spawn_R_CW2_Bombers_Template = { 
+    'A2G_BOMBERS_H6J'
+  }
+
+  Spawn_R_CW3_Bombers_Template = { 
+    'A2G_BOMBERS_TU22'
+  }
+
+  Spawn_R_LL1_Bombers_Template = { 
+    'A2G_BOMBERS_SU22'
+  }
+
+  Spawn_R_LL2_Bombers_Template = { 
+    'A2G_BOMBERS_AJS37'
+  }
+
+  Spawn_R_LL3_Bombers_Template = { 
+    'A2G_BOMBERS_F16'
+  }
+  
+  Spawn_R_LL4_Bombers_Template = { 
+    'A2G_BOMBERS_F15'
+  }
+
+  env.info( "CRNGE | Group Templates --- Completed" )
+
+end
+---------------------------------------------------
+-- Air Unit Spawning
+---------------------------------------------------
+do
+if (crnge.debug == true) then
+  trigger.action.outText("CRNGE | Air Unit Spawning --- START" , 10 , false)
+end
+
+ REDFOR_AWACS = SPAWN:New("RED_AWACS"):InitLimit( 1, 0 )
+    :InitRepeatOnLanding()
+    :InitDelayOff()
+    :InitCleanUp( 300 )
+    :SpawnScheduled( 300, 0.25 )
+  
+  REDFOR_CITY_HELO = SPAWN:New("R_CITY_AIR-1"):InitLimit( 1, 0 )
+    :InitRepeatOnLanding()
+    :InitDelayOff()
+    :InitCleanUp( 300 )
+    :SpawnScheduled( 300, 0.25 )
+ 
+ 
+ env.info( "CRNGE | Air Unit Spawning --- Completed" )
+
+end
+---------------------------------------------------
+-- Ground Vehicle Spawning
+---------------------------------------------------
+do
+if (crnge.debug == true) then
+  trigger.action.outText("CRNGE | Ground Vehicle Spawning --- START" , 10 , false)
+end
+
+--Roadside convoys w/ air escort
+Moving_Convoy_01 = SPAWN:New( "R_CVY_01")
+  :InitLimit( 15, 0 )
+  :InitGroupHeading(262)
+  :InitRandomizeTemplate( Template_Red_Convoy )
+  :SpawnScheduled( 300, 0)
+  :OnSpawnGroup(
+    function( SpawnGroup )
+      local Spawn_Helo_01 = SPAWN:New( "R_Convoy_Helo_01" )
+      :InitRandomizeTemplate( Template_Red_Helicopter )
+      :Spawn()
+      local FollowDCSTask = Spawn_Helo_01:TaskEscort( SpawnGroup, POINT_VEC3:New(-50, 100, 0):GetVec3(), 5, 3000, {'Air'} )
+      Spawn_Helo_01:SetTask (FollowDCSTask,4)
+    end
+  )
+
+--Roadside convoys w/ air escort
+Moving_Convoy_02 = SPAWN:New( "R_CVY_02")
+  :InitLimit( 15, 0 )
+  :InitGroupHeading(224)
+  :InitRandomizeTemplate( Template_Red_Convoy )
+  :SpawnScheduled( 300, 0)
+  :OnSpawnGroup(
+    function( SpawnGroup )
+      local Spawn_Helo_01 = SPAWN:New( "R_Convoy_Helo_02" )
+      :InitRandomizeTemplate( Template_Red_Helicopter )
+      :Spawn()
+      local FollowDCSTask = Spawn_Helo_01:TaskEscort( SpawnGroup, POINT_VEC3:New(-50, 100, 0):GetVec3(), 5, 3000, {'Air'} )
+      Spawn_Helo_01:SetTask (FollowDCSTask,4)
+    end
+  )
+
+Moving_Convoy_03 = SPAWN:New( "R_CVY_03")
+  :InitLimit( 15, 0 )
+  :InitGroupHeading(149)
+  :InitRandomizeTemplate( Template_Red_Convoy )
+  :SpawnScheduled( 300, 0)
+
+--[[
+AddDismounts("R_CNV-1","Rifle")
+AddDismounts("R_CNV-2","Rifle")
+AddDismounts("R_CNV-3","MANPADS")
+AddDismounts("R_CNV-1-1","Rifle")
+AddDismounts("R_CNV-1-2","Rifle")
+AddDismounts("R_CNV-1-3","MANPADS")
+AddDismounts("R_SCOUT_1-1","Rifle")
+AddDismounts("R_SCOUT_1-2","MANPADS")
+AddDismounts("R_SCOUT_2-1","Rifle")
+AddDismounts("R_SCOUT_2-2","MANPADS")
+AddDismounts("R_CITY_MOV_VEH-2-1","Rifle")
+AddDismounts("R_CITY_MOV_VEH-2-2","Rifle")
+AddDismounts("R_CITY_MOV_VEH-2-3","Rifle")
+AddDismounts("R_CITY_MOV_VEH-3-1","Rifle")
+AddDismounts("R_CITY_MOV_VEH-3-2","Rifle")
+AddDismounts("R_CITY_MOV_VEH-3-3","MANPADS")]]
+
+ env.info( "CRNGE | Ground Vehicle Spawning --- Completed" )
+end
+---------------------------------------------------
+-- Naval Vessel Spawning
+---------------------------------------------------
+do
+if (crnge.debug == true) then
+  MESSAGE:New("CRNGE | Ship spawning --- START",10):ToAll()
+end
+
+Moving_Ship_01 = SPAWN:New( "N_NavalTargets-1")
+  :InitLimit( 1, 0 )
+  :OnSpawnGroup(
+    function( SpawnGroup )
+      SpawnGroup:PatrolRouteRandom(25)
+    end
+  )
+  :SpawnScheduled( 120, 0)
+
+Moving_Ship_02 = SPAWN:New( "N_NavalTargets-2")
+  :InitLimit( 1, 0 )
+  :OnSpawnGroup(
+    function( SpawnGroup )
+      SpawnGroup:PatrolRouteRandom(20)
+    end
+  )
+  :SpawnScheduled( 120, 0)
+
+Moving_Ship_03 = SPAWN:New( "N_NavalTargets-3")
+  :InitLimit( 1, 0 )
+  :SpawnScheduled( 120, 0)
+  :OnSpawnGroup(
+  function( SpawnGroup )
+    SpawnGroup:PatrolRouteRandom(15)
+  end
+)
+
+ env.info( "CRNGE | Ship Spawning --- Completed" )
+end
+---------------------------------------------------
+-- Target Ranges
+---------------------------------------------------
+do
+if (crnge.debug == true) then
+  MESSAGE:New("CRNGE | Target Range --- START",10):ToAll()
+end
+
+
+
+--** Static and Moving Range CN02
+cn02bombingcircles = {"Range_BombCircle"}
+cn02MovingTargets = {"Range_Moving_01", "Range_Moving_02", "Range_Moving_03", "Range_Moving_04", "Range_Moving_05", "Range_Moving_06"}
+RangeCN02 = RANGE:New("Range KobOld")
+    :AddStrafePit({"Range_StrafePit"}, 4000, 300, 180, false, 20, 428)
+    :AddBombingTargets(cn02bombingcircles, 40)
+    :AddBombingTargets(cn02MovingTargets, 25)
+
+RangeCN02:Start()
+
+
+ env.info( "CRNGE | Target Ranges --- Completed" )
+end
+---------------------------------------------------
+-- REDFOR CAP SPAWNS
+---------------------------------------------------
+
+do
+if (crnge.debug == true) then
+  trigger.action.outText("CRNGE | REDFOR CAP Spawn -- START" , 10 , false)
+end
+
+--RUSSIAN AIR FORCE (VKS)
+
+  REDFOR_CAP_BESLAN = SPAWN:New("R_A2ACAP_MIG23_BESLAN"):InitLimit( 2, 0 )
+    :InitRepeatOnLanding()
+    :InitDelayOff()
+    :InitCleanUp( 300 )
+    :SpawnScheduled( 600, 0.2 )
+
+  REDFOR_CAP_KRAS = SPAWN:New("R_A2ACAP_MIG31_KRAS"):InitLimit( 2, 0 )
+    :InitRepeatOnLanding()
+    :InitDelayOff()
+    :InitCleanUp( 300 )
+    :SpawnScheduled( 600, 0.2 )
+
+
+  REDFOR_CAP_KRAS = SPAWN:New("R_A2ACAP_MIG25_MOZ"):InitLimit( 2, 0 )
+    :InitRepeatOnLanding()
+    :InitDelayOff()
+    :InitCleanUp( 300 )
+    :SpawnScheduled( 600, 0.2 )
+    
+  REDFOR_CAP_MAYKOP = SPAWN:New("RA2ACAP_SU30_MAY"):InitLimit( 2, 0 )
+    :InitRepeatOnLanding()
+    :InitDelayOff()
+    :InitCleanUp( 300 )
+    :SpawnScheduled( 600, 0.2 )   
+
+--** CAP ZONES
+
+--Current depreciated
+
+env.info( "CRNGE | REDFOR CAP Spawn -- Completed" )
+
+end
 ---------------------------------------------------
 -- Menu System -- No local
 ---------------------------------------------------
@@ -499,3 +839,11 @@ end
          choice_confirm_season = missionCommands.addCommand('Confirm Change Season', Menu_ChangeMissionSeason, CSG8F.utils.setFlag, {flag= 99996}) 
  
 env.info( "CRNGE | Mission Control Commands --- Completed" )
+  
+
+
+if (crnge.debug == true) then
+  trigger.action.outText("CRNGE | Mission Script Loaded Successfully ***" , 10 , false)
+end
+
+env.info( "CRNGE | CRNGE Mission script loaded successfully\nBuild: 2.00.0033-2025-09-19 T18:45:57Z" )

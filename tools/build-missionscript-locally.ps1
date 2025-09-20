@@ -42,9 +42,11 @@ $allFiles | Where-Object { Test-Path $_ } | ForEach-Object {
 
 # Get the current ISO timestamp and prepend with 'dev-'
 $timestamp = Get-Date -Format "yyyy-MM-dd THH:mm:ssZ"
-$build = "2.00.0031-$timestamp"
+$build = "2.00.0033-$timestamp"
+$version = "2.00.0033"
 
 # Replace {BUILD} with the version string
 (Get-Content $outputFile) -replace '\{BUILD\}', $build | Set-Content $outputFile
+(Get-Content $outputFile) -replace '\{VERSION\}', $version | Set-Content $outputFile
 
 Write-Host "crnge-missionscript build complete. Build: $build"
